@@ -196,7 +196,7 @@ font-weight: 500;
 }
 @media (max-width: 768px) {
   .users {
-    margin-top: -14% !important;
+    margin-top: -7% !important;
   }
 }
   .users:focus {
