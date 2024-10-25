@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { getFunctions } from 'firebase/functions'; 
 
 const firebaseConfig = {
@@ -19,6 +19,26 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firestore
 const db = getFirestore(app);
 
+// Initialize Firestore
+const colRef = collection(db, "users");
+
+// GET COLLECTION DATA
+// let usersdata;
+// getDocs(colRef)
+//  .then((Snapshot) => {
+//       // console.log(Snapshot.docs);
+//       let users = []
+//       usersdata = [...users]
+//       Snapshot.docs.forEach((doc) => {
+//         users.push({...doc.data(), id: doc.id});
+//       });
+//         // update usersdata
+//         console.log("data", users);
+//       })
+//     .catch((error) => {
+//       console.log(err.message)
+   
+//   })
 // Initialize Auth
 const auth = getAuth(app);
 

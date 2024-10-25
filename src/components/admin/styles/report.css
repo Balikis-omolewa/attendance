@@ -1,0 +1,281 @@
+.attendance-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px auto;
+  background-color:  #fff;
+  padding: 15px 20px;
+  height: 100vh;
+  gap: 20px;
+}
+
+.attendance-left {
+  width: 70%; /* Adjust this width as needed */
+  padding: 20px;
+  /* background-color: #f8f9fa; */
+}
+
+/* Calendar container styling */
+.calendar-container {
+  background-color: #F7F9FC; /* Light background color */
+  border-radius: 20px;       /* Smooth rounded edges */
+  padding: 20px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.05); /* Soft shadow for depth */
+  max-width: 350px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Calendar title styling */
+.calendar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+/* Calendar styling */
+.custom-calendar {
+  border: none;
+  background-color: transparent;
+}
+
+.custom-calendar .react-calendar__tile {
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  color: #333;
+  font-size: 1rem;
+  font-weight: bold;
+  background-color: #fff;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.custom-calendar .react-calendar__tile--now {
+  background-color: #e8f0fe;
+}
+
+.custom-calendar .react-calendar__tile--active {
+  background-color: #2c6bed;  /* Blue for active day */
+  color: white;
+}
+
+.custom-calendar .react-calendar__month-view__days__day--weekend {
+  color: #ff4d4f; /* Red for weekends */
+}
+
+/* Styling for days */
+.custom-calendar .react-calendar__tile:hover {
+  background-color: #f0f0f0; /* Light hover effect */
+}
+
+.custom-calendar .react-calendar__navigation button {
+  background-color: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: #2c6bed;
+  font-weight: bold;
+}
+
+.custom-calendar .react-calendar__navigation button:disabled {
+  color: #ccc;
+}
+
+.custom-calendar .react-calendar__navigation button:enabled:hover {
+  background-color: #e8f0fe;
+}
+/* Ensure text for day names, month names, etc. is visible */
+.custom-calendar .react-calendar__navigation button,
+.custom-calendar .react-calendar__tile,
+.custom-calendar .react-calendar__month-view__weekdays__weekday abbr {
+  color: #333; /* Dark text color for visibility */
+  font-weight: 600; /* Make the text bold for emphasis */
+}
+
+/* Ensure month and year header text is visible */
+.custom-calendar .react-calendar__navigation button {
+  color: #2c6bed;
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+/* Ensure the weekdays are properly styled */
+.custom-calendar .react-calendar__month-view__weekdays__weekday {
+  color: #666;
+  font-size: 1rem;
+  padding: 10px;
+}
+
+/* Ensure no overflow or clipping occurs */
+.custom-calendar .react-calendar__tile {
+  overflow: visible;
+  white-space: nowrap;
+}
+
+/* Selected date text */
+.selected-date {
+  font-size: 1rem;
+  color: #555;
+  margin-top: 15px;
+}
+
+.admin-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .admin-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .search-bar {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .search-input {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    width: 200px;
+  }
+  
+  .search-button {
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .table th, .table td {
+    padding: 10px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #e9ecef;
+  }
+  
+  .table-row:hover {
+    background-color: #f1f1f1;
+  }
+  .role-card-boxs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  
+  .role-card-boxs .role-card-box {
+    padding: 5px;
+    background-color: #fff !important;
+    border-radius: 5px;
+    cursor: pointer;
+    flex: 1;
+    margin: 0 5px;
+    text-align: center;
+  }
+  
+  .role-card-boxs .role-card-box:hover,
+  .role-card-boxs .role-card-box:active {
+    background-color: #2c6bed !important;
+    color: #fff !important;
+  }
+  .userInfo {
+    height: 90vh;
+    background-color: white;
+  }
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .user-table th,
+  .user-table td {
+    /* border: 1px solid #ddd; */
+    font-size: 15px;
+    padding: 10px 12px;
+  }
+  
+  .user-table th {
+    background-color: #f2f2f2;
+  }
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+  }
+  
+  .role-cards .role-card {
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .role-cards .role-card:hover {
+    background-color: #007bff;
+    color: #fff;
+    font-weight: 400;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+  }
+  
+  .user-table th, .user-table td {
+    padding: 10px;
+    border: 1px solid #fff;
+    text-align: left;
+  }
+  
+  .userCard {
+    display: block;
+    justify-content: left;
+    align-items: center;
+    width: 400px;
+    height: 90vh;
+    background-color: #007bff;
+    border-radius: 8px;
+    text-align: left;
+    padding: 5px;
+  }
+  .u-card {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    width: 350px;
+    height: 15vh;
+    background-color: #fff;
+    border-radius: 8px;
+    text-align: center;
+    padding: 30px;
+  }
+  .u-card p {
+    font-size: 25px;
+    font-weight: 700;
+    margin: 20px;
+    background-color: #007bff;
+    padding: 10px; color: #fff; border-radius: 8px;
+  }

@@ -27,7 +27,7 @@ const SignIn = () => {
       </div>
       <div className='card-content' style={{ height: "50vh"}}>
         <div className='content-info'>
-        <h2>WELCOME BACK !</h2>
+        <h2>WELCOME BACK!</h2>
         <p>Sign In with Password or Fingerprint.</p>
         </div>
        <div style={{ textAlign: "center"}}>

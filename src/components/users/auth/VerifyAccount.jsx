@@ -1,75 +1,58 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
 import logo from '../../../assets/img/w-logo.png';
 import { IoIosArrowBack } from "react-icons/io";
 
 const VerifyEmail = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState('');
-  const [verificationStatus, setVerificationStatus] = useState('Checking verification status...');
-  const [polling, setPolling] = useState(true);
+  const [verificationStatus, setVerificationStatus] = useState('Verifying your email...');
   const navigate = useNavigate();
-  const auth = getAuth();
 
   useEffect(() => {
-    const checkVerificationStatus = async () => {
-      const user = auth.currentUser;
-      if (user) {
-        try {
-          await user.reload(); // Refresh user data
-          if (user.emailVerified) {
-            setIsVerified(true);
-            setVerificationStatus('Email Verified');
-            setPolling(false); // Stop polling if verified
-          } else {
-            setVerificationStatus('Email Not Verified');
-          }
-        } catch (err) {
-          setError('Failed to check verification status.');
-          setPolling(false); // Stop polling if there's an error
+    const verifyEmail = async () => {
+      const token = new URLSearchParams(window.location.search).get('token'); // Get the token from the URL
+      console.log("Verification token from URL:", token); // Log the token for debugging
+
+      if (!token) {
+        setError('No verification token provided.');
+        return;
+      }
+
+      try {
+        const response = await fetch('http://localhost/attendance_system/verifyaccount.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token }), // Send the token to the server
+        });
+        
+        const text = await response.text(); // Get the response as text
+        console.log("Raw response from server:", text); // Log the raw response
+        const data = JSON.parse(text); // Now parse it to JSON
+
+        if (data.success) {
+          setIsVerified(true);
+          setVerificationStatus('Email Verified! Redirecting...');
+          setTimeout(() => {
+            navigate('/location-access'); // Redirect to desired page after verification
+          }, 2000); // Wait for 2 seconds before redirecting
+        } else {
+          setVerificationStatus('Verification failed.');
+          setError(data.error || 'Verification failed.');
         }
-      } else {
-        setError('User is not authenticated.');
-        setPolling(false);
+      } catch (err) {
+        console.error('Failed to verify email:', err); // Log error if fetch fails
+        setError('Failed to verify email.');
       }
     };
 
-    const intervalId = setInterval(() => {
-      if (polling) {
-        checkVerificationStatus();
-      }
-    }, 40000); // Check every 40 seconds
-
-    // Check verification status immediately on mount
-    checkVerificationStatus();
-
-    // Clean up interval on component unmount or when polling is stopped
-    return () => clearInterval(intervalId);
-  }, [polling, auth]);
+    verifyEmail();
+  }, [navigate]);
 
   const handleBack = () => {
     navigate(-1);
-  };
-
-  const resendVerificationEmail = async () => {
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        await user.sendEmailVerification();
-        setError('Verification email sent. Please check your inbox.');
-      } catch (err) {
-        setError('Failed to send verification email.');
-      }
-    }
-  };
-
-  const handleVerify = () => {
-    if (isVerified) {
-      navigate('/location-access');
-    } else {
-      resendVerificationEmail();
-    }
   };
 
   return (
@@ -83,15 +66,11 @@ const VerifyEmail = () => {
       <div className="card-content" style={{ height: "50vh" }}>
         <div className='content-info'>
           <h2>VERIFICATION STATUS</h2>
-          <p className='mb-5 p-1'>Please kindly know that an email has been <br /> sent with a verification link.</p>
         </div>
         <div className="form-field mt-5 center">
-          <input type="text" className='input text-center' style={{color: 'green'}} readOnly value={verificationStatus} />
+          <input type="text" className='input text-center' style={{ color: 'green' }} readOnly value={verificationStatus} />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button className="check-card mt-4" onClick={handleVerify}>
-          {isVerified ? 'Proceed' : 'Verify Again'}
-        </button>
+        {error && <p style={{ color: '#333' }}>{error}</p>}
       </div>
     </div>
   );

@@ -159,7 +159,10 @@ font-weight: 500;
     font-weight: 500;
   }
   .check-card {
-    padding: 20px;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: #4A82DD;
     color: #fff;
     width: 100%;
@@ -290,3 +293,51 @@ font-weight: 500;
     width: 120px !important;
     height: 120px !important;
   }
+
+
+ 
+  
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  
+  .datetime-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    font-size: 18px;
+  }
+  
+  .menu-item {
+    background-color: #fff;
+    margin: 12px 0;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 12px 12px;
+  }
+ .datetime{
+    background-color: #F4F6FA; padding: 3px !important;
+  }
+  .datetime .date {
+    color: #4A82DD; padding-left: 15px; text-align: left; font-size: 16px;
+  } .datetime .time { font-size: 15px; margin-top: -45px; margin-left: -20px; text-align: left;}
+  .menu-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+  }
+  
+  .menu-content {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+  .card-heading {
+    margin-top: 10%;
+  } .card-heading h2 
+  { font-size: 20px; margin-top: 10px; font-weight: 600; letter-spacing: 1px;}
+   .card-heading p { font-size: 16px; font-weight: 350; margin-top: -20px;}
+  

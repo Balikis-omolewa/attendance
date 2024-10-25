@@ -1,0 +1,68 @@
+/* Container for the login form */
+.admin-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f7fa;
+  }
+  
+  /* Styling the form itself */
+  .admin-login-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  /* Form title */
+  .admin-login-form h2 {
+    text-align: center;
+    color: #4d5b7c;
+    margin-bottom: 20px;
+  }
+  
+  /* Inputs styling */
+  .admin-login-form input {
+    padding: 12px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Focus style for inputs */
+  .admin-login-form input:focus {
+    border-color: #4A82DD;
+  }
+  
+  /* Button styling */
+  .admin-login-form button {
+    background-color: #4A82DD;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button hover effect */
+  .admin-login-form button:hover {
+    background-color: #F4F6FA;
+    border-color: 2px solid #4A82DD;
+  }
+  
+  /* Error styling */
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+  }
+  

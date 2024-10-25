@@ -7,15 +7,9 @@ import Hrs from '../../../assets/img/hrs.png';
 import avatar from '../../../assets/img/avatar.png';
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import BackButton from '../BackButton';
-import { auth, db } from '../../firebase/firebaseConfig';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const CheckInOutPassword = () => {
-  const location = useLocation();
-  const userNameFromSignup = location.state?.name || '';
-
   const [time, setTime] = useState(moment().format('h:mm a'));
   const [date, setDate] = useState(moment().format('MMMM Do, YYYY'));
   const [checkInTime, setCheckInTime] = useState(localStorage.getItem('checkInTime') || null);
@@ -24,106 +18,32 @@ const CheckInOutPassword = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [userImage, setUserImage] = useState(null);
-  const [greetUser, setGreetUser] = useState(null);
-  const [userName, setUserName] = useState(userNameFromSignup);
-  const defaultPassword = '1234'; // Default password for testing
+  const [userName, setUserName] = useState('User'); // Hardcoded for demo
+  const [storedPasswords, setStoredPasswords] = useState(['123456', 'password2', 'password3', 'password4', 'password5']);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(moment().format('h:mm a'));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const users = auth.currentUser;
-      if (users) {
-        const docRef = doc(db, "users", users.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          setUserName(data.name || userNameFromSignup);
-          if (data.password) {
-            // Uncomment the next line if you plan to use dynamic passwords
-            // setStoredPassword(data.password || defaultPassword);
-            setStoredPassword(defaultPassword); // Hardcoded password
-          } else {
-            setStoredPassword(defaultPassword); // Hardcoded password
-          }
-          if (data.imageUrl) {
-            setUserImage(data.imageUrl);
-          }
-        } else {
-          console.log("No such document!");
-        }
-      }
-    };
-
-    fetchUserData();
-  }, [userNameFromSignup]);
-
+  // Calculate total hours worked whenever checkInTime or checkOutTime changes
   useEffect(() => {
     const calculateTotalHours = () => {
       if (checkInTime && checkOutTime) {
         const checkInMoment = moment(checkInTime, 'h:mm a');
         const checkOutMoment = moment(checkOutTime, 'h:mm a');
         const diffInHours = checkOutMoment.diff(checkInMoment, 'hours', true);
-        setTotalHours(diffInHours.toFixed(2));
+        const hours = Math.floor(diffInHours);
+        const minutes = Math.round((diffInHours - hours) * 60);
+        setTotalHours(`${hours}:${minutes < 10 ? '0' : ''}${minutes}`);
+      } else {
+        setTotalHours('--:--');
       }
     };
-
+    
     calculateTotalHours();
   }, [checkInTime, checkOutTime]);
 
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const user = auth.currentUser;
-      if (user) {
-        const storage = getStorage();
-        const storageRef = ref(storage, `user-images/${user.uid}/${file.name}`);
-
-        try {
-          await uploadBytes(storageRef, file);
-          const imageUrl = await getDownloadURL(storageRef);
-          setUserImage(imageUrl);
-
-          const userDocRef = doc(db, 'users', user.uid);
-          await updateDoc(userDocRef, { imageUrl });
-
-          console.log('Image uploaded and user document updated with image URL');
-        } catch (error) {
-          console.error('Error uploading image:', error);
-          alert('Failed to upload image. Check console for details.');
-        }
-      }
-    }
-  };
-
-  const handleGreetUser = () => {
-    const currentHour = moment().hour();
-    let greeting = '';
-
-    if (currentHour < 12) {
-      greeting = 'Morning';
-    } else if (currentHour < 18) {
-      greeting = 'Afternoon';
-    } else {
-      greeting = 'Evening';
-    }
-    setGreetUser(greeting);
-  };
-
-  useEffect(() => {
-    handleGreetUser();
-  }, []);
-
-  const handleAction = async () => {
+  // Check-in/out action
+  const handleAction = () => {
     const inputPassword = password.trim();
-    const storedPasswordTrimmed = storedPassword.trim();
-
-    if (inputPassword === storedPasswordTrimmed) {
+    if (storedPasswords.includes(inputPassword)) {
+      // Check-in or check-out logic
       if (!checkInTime) {
         const currentTime = moment().format('h:mm a');
         setCheckInTime(currentTime);
@@ -134,10 +54,7 @@ const CheckInOutPassword = () => {
         setCheckOutTime(currentTime);
         localStorage.setItem('checkOutTime', currentTime);
         setErrorMessage('');
-      } else {
-        setErrorMessage('You have already checked out.');
       }
-      setPassword('');
     } else {
       setErrorMessage('Incorrect password. Try again.');
     }
@@ -145,28 +62,15 @@ const CheckInOutPassword = () => {
 
   return (
     <div className="card-body">
-      <span><BackButton style={{ color: '#4A82DD' }} /></span>
+      <BackButton />
       <div className="card-inner">
         <div className="heading">
           <div className="greeting">
-            <h2>Hey {userName || 'User'}!</h2>
-            <p>Good {greetUser}! {checkInTime ? 'Remember to Check Out.' : 'Check In Today.'}</p>
+            <h2>Hey {userName}!</h2>
+            <p>{checkInTime ? 'Remember to Check Out.' : 'Check In Today.'}</p>
           </div>
           <div className="profile-picture">
-            <label htmlFor="file-upload">
-              {userImage ? (
-                <img src={userImage} alt="Profile" style={{ width: '70px', height: '70px', borderRadius: '50%', objectFit: 'cover' }} />
-              ) : (
-                <img src={avatar} alt="Avatar" style={{ width: '70px', height: '70px', borderRadius: '50%', cursor: 'pointer' }} />
-              )}
-            </label>
-            <input
-              id="file-upload"
-              type="file"
-              style={{ display: 'none' }}
-              accept="image/*"
-              onChange={handleImageChange}
-            />
+            <img src={userImage || avatar} alt="Avatar" style={{ width: '70px', height: '70px', borderRadius: '50%' }} />
           </div>
         </div>
 
@@ -200,26 +104,26 @@ const CheckInOutPassword = () => {
 
         <div className="status-section">
           <div>
-            <span><img src={checkIn} style={{ width: '33px' }} alt="CheckIn" /></span>
+            <img src={checkIn} style={{ width: '33px' }} alt="CheckIn" />
             <h2>{checkInTime || '--:--'}</h2>
             <p>Check In</p>
           </div>
           <div>
-            <span><img src={checkOut} style={{ width: '28px' }} alt="CheckOut" /></span>
+            <img src={checkOut} style={{ width: '28px' }} alt="CheckOut" />
             <h2>{checkOutTime || '--:--'}</h2>
             <p>Check Out</p>
           </div>
           <div>
-            <span><img src={Hrs} style={{ width: '33px' }} alt="Hrs" /></span>
+            <img src={Hrs} style={{ width: '33px' }} alt="Hrs" />
             <h2>{totalHours || '--:--'}</h2>
             <p>Total Hrs</p>
           </div>
         </div>
 
         <div className="footer-nav check-card">
-          <button>Home</button>
-          <button>History</button>
-          <button>Profile</button>
+          <Link to="/signin"><button>Home</button></Link>
+          <Link to="/history"><button>History</button></Link>
+          <Link to="/profile"><button>Profile</button></Link>
         </div>
       </div>
     </div>

@@ -1,0 +1,67 @@
+/* General layout */
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    flex-wrap: wrap; /* Enables wrapping for responsiveness */
+}
+  .dashboard-content {
+    flex: 1; /* Take remaining space */
+    padding: 20px;
+    background-color: #f7fafc; 
+    height: auto; /* Full height */
+  }
+  
+
+  /* Ensure the dashboard container is full height and flexbox aligned */
+.dashboard-container {
+  display: flex;
+  height: 100vh; /* Full height */
+  overflow: hidden; 
+}
+
+.sidebar {
+  width: 250px; /* Sidebar fixed width */
+  background-color: #2f3b52; /* Example sidebar background color */
+  padding: 20px; /* Adjust padding */
+  height: 100vh; /* Ensure the sidebar takes full height */
+  box-sizing: border-box;
+}
+
+.dashboard-content {
+  /* flex-grow: 1;  */
+  padding: 20px;
+  background-color: #f9fafb; 
+  overflow-y: hidden ! important; 
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header,
+.admin-card,
+.attendance-history {
+  margin-bottom: 20px; /* Ensure spacing between different sections */
+}
+
+/* For responsiveness, adjust the layout when screen size is smaller */
+@media screen and (max-width: 1024px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .dashboard-content {
+    width: 100%;
+    padding: 10px;
+  }
+}
